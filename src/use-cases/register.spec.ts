@@ -1,11 +1,12 @@
-import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { describe, expect, it } from 'vitest'
 import { RegisterUseCase } from './register'
 
+import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
+
 describe('Register Use Case', () => {
   it('should be able to register a org', async () => {
-    const inMemoryOrgsRepository = new InMemoryOrgsRepository()
-    const registerUseCase = new RegisterUseCase(inMemoryOrgsRepository)
+    const orgsRepository = new InMemoryOrgsRepository()
+    const registerUseCase = new RegisterUseCase(orgsRepository)
 
     const { org } = await registerUseCase.execute({
       author: 'Antonio bandeira',

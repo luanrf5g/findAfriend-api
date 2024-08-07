@@ -1,6 +1,7 @@
 import { Prisma, Org } from '@prisma/client'
-import { OrgsRepository } from '../orgs-repository'
 import { randomUUID } from 'crypto'
+
+import { OrgsRepository } from '../orgs-repository'
 
 export class InMemoryOrgsRepository implements OrgsRepository {
   items: Org[] = []
