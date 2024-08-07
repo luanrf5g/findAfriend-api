@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { hash } from 'bcryptjs'
-import { PrismaClient } from '@prisma/client'
+
+import { PrismaOrgsRepository } from '@/repositories/prisma/prisma-orgs-repository'
+import { RegisterUseCase } from '@/use-cases/register'
+import { OrgAlreadyExistsError } from '@/use-cases/errors/org-already-exists-error'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
-  const prisma = new PrismaClient()
-
   const orgCreateBodySchema = z.object({
     author: z.string(),
     email: z.string().email(),
@@ -28,23 +28,26 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     longitude,
   } = orgCreateBodySchema.parse(request.body)
 
-  const password_hash = await hash(password, 6)
-
   try {
-    const org = await prisma.org.create({
-      data: {
-        author,
-        email,
-        password_hash,
-        whatsapp,
-        cep,
-        adress,
-        latitude,
-        longitude,
-      },
+    const prismaOrgsRepository = new PrismaOrgsRepository()
+    const registerUseCase = new RegisterUseCase(prismaOrgsRepository)
+
+    await registerUseCase.execute({
+      author,
+      email,
+      password,
+      whatsapp,
+      cep,
+      adress,
+      latitude,
+      longitude,
     })
   } catch (err) {
-    throw new Error('Cannot create a org')
+    if (err instanceof OrgAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
+    }
+
+    throw err
   }
 
   return reply.status(201).send()

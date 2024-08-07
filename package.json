@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start:dev": "tsx watch src/server.ts"
+    "start:dev": "tsx watch src/server.ts",
+    "start": "node build/server.ts",
+    "build": "tsup src --out-dir build",
+    "test": "vitest run --dir src/use-cases",
+    "test:watch": "vitest --dir src/use-cases"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +21,9 @@
     "prisma": "^5.17.0",
     "tsup": "^8.2.4",
     "tsx": "^4.16.5",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5",
+    "vitest-tsconfig-paths": "^3.4.1"
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
