@@ -20,22 +20,36 @@ interface RegisterUseCaseResponse {
 }
 
 export class RegisterUseCase {
-  constructor(private orgsRepository: OrgsRepository) {}
+  constructor(public orgsRepository: OrgsRepository) {}
 
-  async execute(
-    data: RegisterUseCaseRequest,
-  ): Promise<RegisterUseCaseResponse> {
-    const password_hash = await hash(data.password, 6)
+  async execute({
+    author,
+    email,
+    password,
+    whatsapp,
+    cep,
+    adress,
+    latitude,
+    longitude,
+  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    const password_hash = await hash(password, 6)
 
-    const orgWithTheSameEmail = await this.orgsRepository.findByEmail(
-      data.email,
-    )
+    const orgWithTheSameEmail = await this.orgsRepository.findByEmail(email)
 
     if (orgWithTheSameEmail) {
       throw new OrgAlreadyExistsError()
     }
 
-    const org = await this.orgsRepository.create({ password_hash, ...data })
+    const org = await this.orgsRepository.create({
+      author,
+      email,
+      password_hash,
+      whatsapp,
+      cep,
+      adress,
+      latitude,
+      longitude,
+    })
 
     return {
       org,
