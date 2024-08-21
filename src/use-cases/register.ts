@@ -11,6 +11,8 @@ interface RegisterUseCaseRequest {
   password: string
   cep: string
   adress: string
+  city: string
+  state: string
   longitude: number
   latitude: number
 }
@@ -29,6 +31,8 @@ export class RegisterUseCase {
     whatsapp,
     cep,
     adress,
+    city,
+    state,
     latitude,
     longitude,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
@@ -47,6 +51,8 @@ export class RegisterUseCase {
       whatsapp,
       cep,
       adress,
+      city,
+      state,
       latitude,
       longitude,
     })

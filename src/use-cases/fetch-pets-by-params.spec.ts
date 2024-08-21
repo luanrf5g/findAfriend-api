@@ -1,21 +1,22 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import { FetchPetsByParams } from './fetch-pets-by-params'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
-import { describe, beforeEach, it, expect } from 'vitest'
-import { CreatePetUseCase } from './create-pet'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
+import { Prisma } from '@prisma/client'
 import { hash } from 'bcryptjs'
 
 let orgsRepository: InMemoryOrgsRepository
 let petsRepository: InMemoryPetsRepository
-let sut: CreatePetUseCase
+let sut: FetchPetsByParams
 
-describe('Create Pet Use Case', () => {
+describe('Fetch Pets By Params', async () => {
   beforeEach(async () => {
     orgsRepository = new InMemoryOrgsRepository()
     petsRepository = new InMemoryPetsRepository(orgsRepository)
-    sut = new CreatePetUseCase(petsRepository, orgsRepository)
+    sut = new FetchPetsByParams(petsRepository)
   })
 
-  it('should be able to create a pet', async () => {
+  it('should be able to get a pets by the city', async () => {
     orgsRepository.create({
       id: 'org-01',
       author: 'Antonio bandeira',
@@ -26,11 +27,11 @@ describe('Create Pet Use Case', () => {
       adress: 'Rua Texas, 119',
       city: 'Caruaru',
       state: 'PE',
-      latitude: -27.587,
-      longitude: -10.597,
+      latitude: new Prisma.Decimal(-27.587),
+      longitude: new Prisma.Decimal(-10.597),
     })
 
-    const { pet } = await sut.execute({
+    petsRepository.create({
       name: 'Levi',
       description: 'Gato cinza muito carinhoso',
       requirements: 'Muito carinho e amor',
@@ -42,6 +43,22 @@ describe('Create Pet Use Case', () => {
       org_id: 'org-01',
     })
 
-    expect(pet.id).toEqual(expect.any(String))
+    petsRepository.create({
+      name: 'Leckter',
+      description: 'Gato cor diferenciada',
+      requirements: 'Muito carinho e amor',
+      age: 'Filhote',
+      size: 'Pequeno',
+      energy: 'Alta',
+      ambient: 'Médio',
+      dependency: 'Baixo',
+      org_id: 'org-01',
+    })
+
+    const { pets } = await sut.execute({
+      city: 'Caruaru',
+    })
+
+    expect(pets).toHaveLength(2)
   })
 })

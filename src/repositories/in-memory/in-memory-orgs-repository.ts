@@ -6,6 +6,16 @@ import { OrgsRepository } from '../orgs-repository'
 export class InMemoryOrgsRepository implements OrgsRepository {
   items: Org[] = []
 
+  async findById(id: string) {
+    const org = this.items.find((item) => item.id === id)
+
+    if (!org) {
+      return null
+    }
+
+    return org
+  }
+
   async findByEmail(email: string) {
     const org = this.items.find((item) => item.email === email)
 
@@ -25,6 +35,8 @@ export class InMemoryOrgsRepository implements OrgsRepository {
       password_hash: data.password_hash,
       cep: data.cep,
       adress: data.adress,
+      city: data.city,
+      state: data.state,
       longitude: new Prisma.Decimal(data.longitude.toString()),
       latitude: new Prisma.Decimal(data.latitude.toString()),
     }

@@ -15,6 +15,8 @@ describe('Register Use Case', () => {
       password: '123456',
       cep: '55016300',
       adress: 'Rua Texas, 119',
+      city: 'Caruaru',
+      state: 'PE',
       latitude: -27.587,
       longitude: -10.597,
     })

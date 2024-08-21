@@ -51,6 +51,8 @@ describe('Authenticate Use Case', () => {
       password_hash: await hash('123456', 6),
       cep: '55016300',
       adress: 'Rua Texas, 119',
+      city: 'Caruaru',
+      state: 'PE',
       latitude: -27.587,
       longitude: -10.597,
     })

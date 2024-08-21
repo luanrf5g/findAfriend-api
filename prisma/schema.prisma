@@ -21,6 +21,8 @@ model Org {
   whatsapp      String
   cep           String
   adress        String
+  city          String
+  state         String
 
   latitude  Decimal
   longitude Decimal
