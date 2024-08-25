@@ -1,7 +1,8 @@
 import { Prisma, Pet } from '@prisma/client'
-import { PetsRepository, searchParams } from '../pets-repository'
 import { randomUUID } from 'node:crypto'
+
 import { InMemoryOrgsRepository } from './in-memory-orgs-repository'
+import { PetsRepository, searchParams } from '../pets-repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
   items: Pet[] = []

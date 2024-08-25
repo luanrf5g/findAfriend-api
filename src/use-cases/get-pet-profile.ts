@@ -1,6 +1,6 @@
-import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
 import { Pet } from '@prisma/client'
 import { ResourceNotFoundError } from './errors/resource-not-found.error'
+import { PetsRepository } from '@/repositories/pets-repository'
 
 interface GetPetProfileUseCaseRequest {
   id: string
@@ -11,7 +11,7 @@ interface GetPetProfileUseCaseResponse {
 }
 
 export class GetPetProfileUseCase {
-  constructor(private petsRepository: InMemoryPetsRepository) {}
+  constructor(private petsRepository: PetsRepository) {}
 
   async execute({
     id,

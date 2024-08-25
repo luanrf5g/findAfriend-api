@@ -1,9 +1,10 @@
-import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
 import { describe, beforeEach, it, expect } from 'vitest'
-import { CreatePetUseCase } from './create-pet'
-import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { hash } from 'bcryptjs'
+
+import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
+import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found.error'
+import { CreatePetUseCase } from './create-pet'
 
 let orgsRepository: InMemoryOrgsRepository
 let petsRepository: InMemoryPetsRepository
