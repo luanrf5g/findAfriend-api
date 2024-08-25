@@ -16,7 +16,7 @@ describe('Fetch Pets By Params', async () => {
     sut = new FetchPetsByParams(petsRepository)
   })
 
-  it('should be able to get a pets by the city', async () => {
+  it('should be able to search pets by the city', async () => {
     orgsRepository.create({
       id: 'org-01',
       author: 'Antonio bandeira',

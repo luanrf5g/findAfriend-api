@@ -1,22 +1,22 @@
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
-import { describe, beforeEach, it, expect } from 'vitest'
-import { CreatePetUseCase } from './create-pet'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { GetPetProfileUseCase } from './get-pet-profile'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { hash } from 'bcryptjs'
 import { ResourceNotFoundError } from './errors/resource-not-found.error'
 
 let orgsRepository: InMemoryOrgsRepository
 let petsRepository: InMemoryPetsRepository
-let sut: CreatePetUseCase
+let sut: GetPetProfileUseCase
 
-describe('Create Pet Use Case', () => {
-  beforeEach(async () => {
+describe('Get Pet Profile Use Case', () => {
+  beforeEach(() => {
     orgsRepository = new InMemoryOrgsRepository()
     petsRepository = new InMemoryPetsRepository(orgsRepository)
-    sut = new CreatePetUseCase(petsRepository, orgsRepository)
+    sut = new GetPetProfileUseCase(petsRepository)
   })
 
-  it('should be able to create a pet', async () => {
+  it('should be able to get a pet profile', async () => {
     orgsRepository.create({
       id: 'org-01',
       author: 'Antonio bandeira',
@@ -31,7 +31,7 @@ describe('Create Pet Use Case', () => {
       longitude: -10.597,
     })
 
-    const { pet } = await sut.execute({
+    const createdPet = await petsRepository.create({
       name: 'Levi',
       description: 'Gato cinza muito carinhoso',
       requirements: 'Muito carinho e amor',
@@ -43,21 +43,17 @@ describe('Create Pet Use Case', () => {
       org_id: 'org-01',
     })
 
+    const { pet } = await sut.execute({
+      id: createdPet.id,
+    })
+
     expect(pet.id).toEqual(expect.any(String))
   })
 
-  it('should not be able to create a pet without a org', async () => {
-    await expect(() =>
+  it('shouldnt be able to get a pet profile with a inexists id', async () => {
+    expect(() =>
       sut.execute({
-        name: 'Levi',
-        description: 'Gato cinza muito carinhoso',
-        requirements: 'Muito carinho e amor',
-        age: 'Filhote',
-        size: 'Pequeno',
-        energy: 'Média',
-        ambient: 'Médio',
-        dependency: 'Média',
-        org_id: 'org-01',
+        id: 'inexistent-pet-id',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
