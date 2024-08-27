@@ -14,4 +14,8 @@
 - [x] Um pet deve estar ligado a uma ORG
 - [x] O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
 - [x] Todos os filtros, além da cidade, são opcionais
-- [ ] Para uma ORG acessar a aplicação como admin, ela precisa estar logada
+- [x] Para uma ORG acessar a aplicação como admin, ela precisa estar logada
+
+# Find a Friend API
+
+Aplicação criada durante o curso de NodeJs da rocketseat. Nesta api foi desenvolvido melhor a parte de testes unitários e e2e de uma forma mais completa, implementando também verificação JWT e refreshToken para a autenticação do usuário/organização ao acessar a aplicação tanto front quanto mobile. A principal característica dessa API é o fato dela possuir os casos de uso da aplicação totalmente separados do modo como são acessados, facilitando assim o modo de uso de quem for consumir essa api, já que sua funcionalidade está totalmente separada da forma que podemos consumi-la.
