@@ -14,13 +14,13 @@ describe('Create Pet E2E Pest', () => {
   })
 
   it('should be able to create a pet', async () => {
-    const { token, orgId } = await createAndAuthenticateAOrg(app)
+    const { token, org } = await createAndAuthenticateAOrg(app)
 
     const response = await request(app.server)
       .post('/pets')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        org_id: orgId,
+        org_id: org.id,
         name: 'Levi',
         description: 'Gato cinza muito carinhoso',
         requirements: 'Muito carinho e amor',

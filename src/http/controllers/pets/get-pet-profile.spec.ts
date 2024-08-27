@@ -2,8 +2,8 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app'
-import { createAndAuthenticateAOrg } from '@/utils/tests/createAndAuthenticateAOrg'
 import { prisma } from '@/lib/prisma'
+import { createAndAuthenticateAOrg } from '@/utils/tests/createAndAuthenticateAOrg'
 
 describe('Get Pet Profile E2E Test', () => {
   beforeAll(async () => {
@@ -15,11 +15,11 @@ describe('Get Pet Profile E2E Test', () => {
   })
 
   it('should be able to get a pet profile', async () => {
-    const { orgId } = await createAndAuthenticateAOrg(app)
+    const { org } = await createAndAuthenticateAOrg(app)
 
     const pet = await prisma.pet.create({
       data: {
-        org_id: orgId,
+        org_id: org.id,
         name: 'Levi',
         requirements: 'Muito carinho e amor',
         age: 'Filhote',

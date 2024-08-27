@@ -1,6 +1,6 @@
-import { makeCreatePetUseCase } from '@/use-cases/factories/make-create-pet-use-case'
-import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { makeCreatePetUseCase } from '@/use-cases/factories/make-create-pet-use-case'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createPetBodySchema = z.object({
